@@ -1,4 +1,4 @@
-![Conecta.ai Logo](./routers/application/img/logo.png)
+![Conecta.ai Logo](./img/logo.jpg)
 
 ## Automotive Chatbot API
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-black.svg)](https://fastapi.tiangolo.com/)
