@@ -270,7 +270,7 @@ This endpoint processes uploaded PDF files to extract text and create a knowledg
 
 #### Endpoint: POST /answer_question_image
 
-This endpoint allows users to ask a question about an image and receive an answer using the knowledge base and image processing capabilities. It integrates advanced AI models to interpret the content of the image and generate a relevant response based on both the visual and textual input.
+This endpoint allows users to ask a question about an image and receive an answer. It integrates advanced AI models to interpret the content of the image and generate a relevant response based on both the visual and textual input.
 
 ##### Workflow
 1. **Authorization Check**: Ensures an authorization header with a valid API key is present.
