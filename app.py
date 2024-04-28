@@ -7,22 +7,27 @@ from routers.application import chat
 from pymilvus import connections
 from contextlib import asynccontextmanager
 
+from utils.logger import setup_logger
+
+# Setup logger
+logger = setup_logger("api.log")
+
 @asynccontextmanager
 async def connect_to_milvus(app: FastAPI):
 
-    print("Connecting to Milvus")
+    logger.info("Connecting to Milvus")
     con = connections.connect(
         host=api_settings.DB_MILVUS_HOST,
         port=api_settings.DB_MILVUS_PORT
     )
 
-    print("Milvus connected!")
+    logger.info("Milvus connected!")
 
     try:
-        print("Persising connection to Milvus")
+        logger.info("Persising connection to Milvus")
         yield con
     finally:
-        print("Disconnecting from Milvus")
+        logger.info("Disconnecting from Milvus")
         connections.disconnect()
 
 
