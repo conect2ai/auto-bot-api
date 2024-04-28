@@ -261,6 +261,10 @@ def setup_sidebar() -> None:
 
         st.write("\n")
 
+        # if collection not exists, display a message to the user
+        if not check_collection_exists(COLLECTION_NAME):
+            st.warning('⚠️ The collection is empty. Please upload PDF files to start the chat.')
+
         # PDF processing section
         st.subheader("📄 PDF Processing Actions")
         pdfs = st.file_uploader('Choose PDF files', type=['pdf'], accept_multiple_files=True)
