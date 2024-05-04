@@ -58,6 +58,8 @@ services:
       - "8501:8501"
     depends_on:
       - "standalone"
+    volumes:
+      - ./utils:/app/utils
   
   api:
     build: 

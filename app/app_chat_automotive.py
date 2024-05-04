@@ -10,6 +10,7 @@ from reportlab.lib.units import inch
 from reportlab.platypus.flowables import Image
 
 from PIL import Image as PilImage
+from utils.logger import setup_logger
 
 BASE_URL = "http://api:8000/chat"
 MILVUS_HOST = "milvus-standalone01"
