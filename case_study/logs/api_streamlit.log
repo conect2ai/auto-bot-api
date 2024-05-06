@@ -1,14 +1,18 @@
-2024-05-06 18:35:03,062 - utils.logger - INFO - [TEXT] Time taken to transcribe audio to text: 1.1533746719360352 seconds
+2024-05-06 17:50:33,238 - utils.logger - INFO - [IMAGE] Time taken to send the request to OpenAI: 5.2143943309783936 seconds
+2024-05-06 17:50:33,238 - utils.logger - INFO - Response: O símbolo na imagem parece relacionado ao sistema ABS, que significa "Sistema de Freios Antibloqueio". Este sistema é comumente utilizado ​​em veículos para prevenir o bloqueio das rodas durante uma frenagem severa, permitindo que o motorista mantenha maior controle sobre a direção, reduzindo o risco de acidentes. O design do símbolo, geralmente, apresenta a palavra "ABS" dentro de um círculo com linhas que podem sugerir movimento ou estabilidade.
+2024-05-06 17:52:03,190 - utils.logger - INFO - [IMAGE] Time taken to send the request to OpenAI: 8.617269277572632 seconds
+2024-05-06 17:52:03,190 - utils.logger - INFO - Response: Este símbolo representa um aviso de "controle de estabilidade desativado" ou "erro no sistema de controle de estabilidade" em veículos. É usado para alertar que o sistema de controle de estabilidade eletrônico (ESC), que ajuda a manter o carro estável e seguro durante condições de condução adversas, está desligado ou não está funcionando corretamente. Se esse ícone acender no painel do seu carro, é uma boa ideia verificar o sistema para garantir a segurança ao dirigir.
+2024-05-06 18:35:03,062 - utils.logger - INFO - [AUDIO] Time taken to transcribe audio to text: 1.1533746719360352 seconds
 2024-05-06 18:35:03,457 - utils.logger - INFO - Transcribed text:  O que é o controle automático de distância.
-2024-05-06 18:35:03,481 - utils.logger - INFO - [TEXT] Time taken to convert audio to text: 2.5110626220703125 seconds
+2024-05-06 18:35:03,481 - utils.logger - INFO - [AUDIO] Time taken to convert audio to text: 2.5110626220703125 seconds
 2024-05-06 18:46:12,062 - utils.logger - INFO - Response content: O controle automático de distância, também conhecido como ACC (Adaptive Cruise Control), é um sistema que mantém uma velocidade constante ajustada pelo condutor. Se o veículo se aproximar de um veículo à frente, o ACC ajustará a velocidade automaticamente para manter a distância ajustada. Este sistema pode ser configurado através do menu de assistentes do sistema do veículo.
-2024-05-06 18:48:55,635 - utils.logger - INFO - [TEXT] Time taken to transcribe audio to text: 1.097132921218872 seconds
+2024-05-06 18:48:55,635 - utils.logger - INFO - [AUDIO] Time taken to transcribe audio to text: 1.097132921218872 seconds
 2024-05-06 18:48:56,119 - utils.logger - INFO - Transcribed text:  O que ocorre no caso de uma intervenção de frenagem automática?
-2024-05-06 18:48:56,146 - utils.logger - INFO - [TEXT] Time taken to convert audio to text: 2.3698315620422363 seconds
+2024-05-06 18:48:56,146 - utils.logger - INFO - [AUDIO] Time taken to convert audio to text: 2.3698315620422363 seconds
 2024-05-06 18:49:01,728 - utils.logger - INFO - Response content: No caso de uma intervenção de frenagem automática, se um obstáculo for detectado, o veículo desacelera até parar e é mantido parado por cerca de 2 segundos. Depois disso, o condutor deve parar o veículo com o pedal de freio após a frenagem e verificar os arredores.
-2024-05-06 18:52:15,541 - utils.logger - INFO - [TEXT] Time taken to transcribe audio to text: 1.1139447689056396 seconds
+2024-05-06 18:52:15,541 - utils.logger - INFO - [AUDIO] Time taken to transcribe audio to text: 1.1139447689056396 seconds
 2024-05-06 18:52:15,865 - utils.logger - INFO - Transcribed text:  Qual o olho recomendado para o motor?
-2024-05-06 18:52:15,890 - utils.logger - INFO - [TEXT] Time taken to convert audio to text: 2.152423143386841 seconds
+2024-05-06 18:52:15,890 - utils.logger - INFO - [AUDIO] Time taken to convert audio to text: 2.152423143386841 seconds
 A Volkswagen recomenda os seguintes óleos para o motor:
 - Para motores a gasolina: norma VW 504 00 e ACEA C3 ou API SP, viscosidade 0 W-30.
 - Para motores multicombustível: norma VW 502 00 e ACEA A3/B4, viscosidade 5 W-40.
