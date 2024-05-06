@@ -1,5 +1,6 @@
 "Code for the Streamlit app for the Automotive Chatbot"
 import os
+import time
 import requests
 from io import BytesIO
 import base64
@@ -10,12 +11,15 @@ from reportlab.lib.units import inch
 from reportlab.platypus.flowables import Image
 
 from PIL import Image as PilImage
+
 from utils.logger import setup_logger
 
 BASE_URL = "http://api:8000/chat"
 MILVUS_HOST = "milvus-standalone01"
 MILVUS_PORT = "19530"
 COLLECTION_NAME = "api"
+
+logger = setup_logger("streamlit.log")
 
 def initialize_session_state() -> None:
     """Initialize Streamlit session state variables."""
@@ -44,8 +48,11 @@ def export_chat_to_pdf() -> BytesIO:
     url = f"{BASE_URL}/export_chat_to_pdf"
     print('Exporting chat history to a PDF file...')
     print(st.session_state.all_messages)
-    data = {"all_messages": st.session_state.all_messages} 
+    data = {"all_messages": st.session_state.all_messages}
+    start_time = time.time()
     response = requests.post(url, json=data)
+    end_time = time.time()
+    logger.info(f"[EXPORT CHAT TO PDF]Time taken to get response: {end_time - start_time} seconds")
 
     if response.status_code == 200:
         base64_pdf = response.json().get("pdf_bytes")
@@ -75,7 +82,10 @@ def process_pdfs(pdfs) -> None:
             'Authorization': f'Bearer {api_key}',
         }
         try:
+            start_time = time.time()
             response = requests.post(url, files=files, headers=headers)
+            end_time = time.time()
+            logger.info(f"[PROCESS PDFS]Time taken to get response: {end_time - start_time} seconds")
             if response.status_code == 200:
                 # print(response.json())
                 st.session_state.knowledge_base = response.json().get("knowledge_base")
@@ -107,7 +117,10 @@ def answer_question(question, brand=None, model=None, year=None) -> str:
             'Authorization': f'Bearer {api_key}',
         }
 
+        start_time = time.time()
         response = requests.post(url, json=params, headers=headers)
+        end_time = time.time()
+        logger.info(f"[ANSWER QUESTION]Time taken to get response: {end_time - start_time} seconds")
         if response.status_code == 200:
             result = response.json()
             return result.get("response_content")
@@ -145,7 +158,10 @@ def answer_question_image(question, image_file) -> str:
         }
 
         # Send the request to the API
+        start_time = time.time()
         response = requests.post(url, files=files, data=data, headers=headers)
+        end_time = time.time()
+        logger.info(f"[ANSWER QUESTION IMAGE]Time taken to get response: {end_time - start_time} seconds")
         
         if response.status_code == 200:
             result = response.json()
@@ -210,11 +226,14 @@ def convert_audio_to_text(audio_file, api_key, brand, model, year) -> None:
     query_params = f"?brand={brand}&model={model}&year={year}"
 
     try:
+        start_time = time.time()
         response = requests.post(f"{BASE_URL}/answer_question_audio{query_params}", 
                                 #  params=params, 
                                  headers=headers, 
                                  files=files
                                  )
+        end_time = time.time()
+        logger.info(f"[CONVERT AUDIO TO TEXT]Time taken to get response: {end_time - start_time} seconds")
         response.raise_for_status()
     except requests.RequestException as e:
         st.error(f"Error converting audio to text: {e}")
@@ -417,7 +436,10 @@ def actions() -> None:
         # utility.drop_collection(COLLECTION_NAME)
         # st.markdown('<meta http-equiv="refresh" content="1">', unsafe_allow_html=True)
         url = f"{BASE_URL}/clear_collection"
+        start_time = time.time()
         response = requests.post(url, json=COLLECTION_NAME)
+        end_time = time.time()
+        logger.info(f"[CLEAR COLLECTION]Time taken to get response: {end_time - start_time} seconds")
         if response.status_code == 200:
             st.success("Collection cleared successfully.")
             st.markdown('<meta http-equiv="refresh" content="1">', unsafe_allow_html=True)
@@ -444,7 +466,10 @@ def main():
         api_key = st.session_state.api_key
         headers = { 'Authorization': f'Bearer {api_key}' }
 
+        start_time = time.time()
         response = requests.post(f"{BASE_URL}/knowledge_base", headers=headers)
+        end_time = time.time()
+        logger.info(f"[MAIN] Knowledge Base: {end_time - start_time} seconds")
 
         if 'uploaded_image' in st.session_state and st.session_state['uploaded_image'] is not None:
             display_chat_image()

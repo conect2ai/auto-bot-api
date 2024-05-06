@@ -1,4 +1,5 @@
 import os
+import time
 import base64
 from base64 import b64encode
 import requests
@@ -157,7 +158,10 @@ def speech_to_text(audio_byte, audio_filename) -> str:
         
         # Transcribe audio to text
         model = WhisperModel("base", device="cpu", compute_type="int8")
+        start_time = time.time()
         segments, info = model.transcribe(audio_mp3, beam_size=5)
+        end_time = time.time()
+        logger.info(f"[TEXT] Time taken to transcribe audio to text: {end_time - start_time} seconds")
 
         logger.info("Audio transcribed")
         
@@ -219,12 +223,16 @@ def answer_question_text(brand: str, model: str, year: str, question: str, opena
 
         logger.info("Performing similarity search")
         # Use similarity_search instead of similarity_search_by_vector
+        
+        start_time = time.time()
         docs = knowledge_base.similarity_search(
             query=question,
             k=10,
             param=None,
             expr=filter_query
         )
+        end_time = time.time()
+        logger.info(f"[TEXT] Time taken for similarity search: {end_time - start_time} seconds")
 
         # st.write(docs)
 
@@ -233,10 +241,14 @@ def answer_question_text(brand: str, model: str, year: str, question: str, opena
         # logger.info(llm)
         chain = load_qa_chain(llm, chain_type="stuff")
         try:
+            start_time = time.time()
             with get_openai_callback() as callback:
                 logger.info("Running the chain")
                 response_content = chain.run(input_documents=docs, question=question)
                 logger.info(callback)
+            end_time = time.time()
+            logger.info(f"[TEXT] Time taken for running the chain: {end_time - start_time} seconds")
+            logger.info(f"Response content: {response_content}")
         except Exception as e:
             logger.error(f"An error occurred while running the chain: {str(e)}")
             return {"message": "An error occurred while running the chain",
@@ -277,8 +289,11 @@ async def convert_audio_to_text(
         # Read the content of the file
         content = await audio_file.read()
 
-        # Call the function to convert audio to text
+        # Call the function to convert audio to 
+        start_time = time.time()
         question = speech_to_text(content, audio_file.filename)
+        end_time = time.time()
+        logger.info(f"[TEXT] Time taken to convert audio to text: {end_time - start_time} seconds")
         logger.info("Text: ", question)
         logger.info("brand: ", brand)
         logger.info("model: ", model)
@@ -633,7 +648,11 @@ async def answer_question_image(authorization: str = Header(None), image_file: U
 
         logger.info("Sending the request to OpenAI")
         # Send the request to OpenAI
+        start_time = time.time()
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+        end_time = time.time()
+        logger.info(f"[IMAGE] Time taken to send the request to OpenAI: {end_time - start_time} seconds")
+        logger.info(f"Response: {response.json().get('choices')[0].get('message').get('content')}")
 
         logger.info("Request sent to OpenAI")
 
