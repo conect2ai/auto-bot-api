@@ -1,61 +1,64 @@
 ![Conecta.ai Logo](./img/logo.jpg)
 
-## Automotive Chatbot API
+## API - Chatbot Automotivo
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-black.svg)](https://fastapi.tiangolo.com/)
 [![Python](https://img.shields.io/badge/Python-3.10-black.svg)](https://www.python.org/)
 [![Docker](https://img.shields.io/badge/Docker-6.0.1-black.svg)](https://www.docker.com/)
 [![Milvus](https://img.shields.io/badge/Milvus-2.4.0-black.svg)](https://milvus.io/)
 
-This repository contains the source code for the Automotive Chatbot API. The API is built using FastAPI and Python, and it uses Milvus for similarity search. The API is designed to provide responses to user queries related to automotive manuals.
+Este repositório contém o código-fonte para a API de Chatbot Automotivo. A API foi construída utilizando FastAPI e Python, e usa Milvus para busca de similaridade. A API é projetada para fornecer respostas a consultas de usuários relacionadas a manuais automotivos.
 
-### Features
-- **FastAPI**: FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.
-- **Milvus**: Milvus is an open-source vector database that provides similar search capabilities for massive-scale datasets.
-- **Docker**: Docker is a platform for developing, shipping, and running applications in containers.
+### Funcionalidades
+- **FastAPI**: framework web moderno e rápido (de alta performance) para a construção de APIs com Python 3.7+;
+- **Milvus**: banco de dados vetorial de código aberto que fornece capacidades de busca por similaridade para conjuntos de dados de grande escala;
+- **Docker**: plataforma de código aberto que facilita a criação, implantação e execução de alicações em contêineres.
 
-You need to have Docker installed on your machine to run this project. If you don't have Docker installed, you can download it from the [official website](https://www.docker.com/).
+Você precisa ter o Docker instalado em sua máquina para executar este projeto. Se você não tem o Docker instalado, pode baixá-lo no [site oficial](https://www.docker.com/).
 
-### Installation
-1. Clone the repository:
+### Aplicação Flutter
+O Aplicativo Flutter que interage com esta API pode ser encontrado [aqui](https://github.com/conect2ai/search_app).
+
+### Instalação e Execução
+1. Clone o repositório:
     ```bash
     git clone https://github.com/conect2ai/auto-bot-api.git
     ```
-2. Change the directory:
+2. Mude para o diretório do projeto:
     ```bash
     cd auto-bot-api
     ```
-3. Execute the following command to build the Docker image and run the API:
+3. Execute o seguinte comando para construir e iniciar a API:
     ```bash
     docker-compose up --build api
     ```
-4. The API will be available at `http://localhost:8000/docs`.
-5. In addition, a Streamlit application will be available at `http://localhost:8501`, which can be used to interact with the API. 
+4. A API estará disponível em `http://localhost:8000`. Você pode acessar a documentação da API em `http://localhost:8000/docs` ou `http://localhost:8000/redoc`.
+5. Além disso, a aplicação Streamlit estará disponível em `http://localhost:8501`, que pode ser usada para interagir com a API.
 
-When uploading an automotive manual in PDF format, it should be named in the format `Brand_Model_Year.pdf`. For example, `Volkswagen_Polo_2020.pdf`.
+Quando você fizer o upload de um manual automotivo no formato PDF, ele deve ser nomeado no formato `Marca_Modelo_Ano.pdf`. Por exemplo, `Volkswagen_Polo_2020.pdf`.
 
-### External Dependencies and Setup
-- **OpenAI API Key**: This API uses the OpenAI API to perform some of its operations. To use these features, you'll need to:
-  1. Create an account at [OpenAI](https://www.openai.com/).
-  2. Follow the instructions to apply for API access.
-  3. Once approved, generate an API key from your OpenAI account dashboard.
-  4. Store this key securely and use it in your API requests as shown in the endpoints that require authentication.
-  5. Note that OpenAI services may incur costs based on usage. Please review OpenAI's pricing details to manage your usage according to your budget.
+### Dependências Externas e Configuração
+- **OpenAI API Key**: a API usa a API OpenAI para realizar algumas de suas operações. Para usar esses recursos, você precisará:
+  1. Criar uma conta em [OpenAI](https://www.openai.com/).
+  2. Seguir as instruções para solicitar acesso à API.
+  3. Uma vez aprovado, gerar uma chave de API no painel da sua conta OpenAI.
+  4. Armazenar essa chave de forma segura e usá-la em suas solicitações de API conforme mostrado nos endpoints que requerem autenticação.
+  5. Observe que os serviços da OpenAI podem incorrer em custos com base no uso.
 
-### API Endpoints Documentation
-The API provides the following endpoints:
+### Documentação dos Endpoints da API
+A API fornece os seguintes endpoints:
 
 #### Endpoint: GET /get_stored_cars
 
-This endpoint fetches a list of stored cars from the Milvus vector database, organized by brand, model, and year. It is designed to provide a quick lookup for the available car data in the database.
+Este endpoint busca uma lista de carros armazenados no banco de dados vetorial Milvus, organizados por marca, modelo e ano. Ele é projetado para fornecer uma rápida consulta para os dados de carros disponíveis no banco de dados.
 
-##### Workflow
-1. **Connection**: Connects to Milvus using the specified URI.
-2. **Check Collection**: Checks if the collection exists. Returns an error if it does not.
-3. **Query Data**: Executes a query to fetch entries where the `brand` field is not empty, collecting the `brand`, `model`, and `year` fields.
-4. **Organize Data**: Structures the response to group years under models, which are grouped under brands.
+##### Fluxo de Trabalho
+1. **Conexão**: conecta-se ao Milvus.
+2. **Verificar Coleção**: verifica se a coleção existe. Retorna um erro se não existir.
+3. **Consultar Dados**: executa uma consulta para buscar entradas onde o campo `brand` não está vazio, coletando os campos `brand`, `model` e `year`.
+4. **Organizar Dados**: estrutura a resposta para agrupar anos sob modelos, que são agrupados sob marcas.
 
-##### Response Format
-- **Success** (Status Code: 200): Returns data structured by brand, model, and year:
+##### Formato da Resposta
+- **Sucesso** (Código de Status: 200) - retorna dados estruturados por marca, modelo e ano:
   ```json
   {
     "message": {
@@ -71,7 +74,7 @@ This endpoint fetches a list of stored cars from the Milvus vector database, org
   }
   ```
 
-- **Failure** (Status Code: 400): If the collection does not exist:
+- **Falha** (Código de Status: 400) - se a coleção não existir:
   ```json
   {
     "message": "Collection COLLECTION_NAME does not exist",
@@ -82,41 +85,39 @@ This endpoint fetches a list of stored cars from the Milvus vector database, org
 ---
 
 #### Endpoint: POST /answer_question_audio
+Converte consultas faladas em texto e, em seguida, gera respostas com base no texto transcrito usando uma base de conhecimento. Este endpoint é adequado para sistemas ativados por voz, em que os usuários podem fazer perguntas sobre especificações de carros via áudio.
 
-Converts spoken queries into text and then generates answers based on the transcribed text using a knowledge base. This endpoint is suitable for voice-activated systems where users can ask questions about car specifications via audio.
+##### Fluxo de Trabalho
+1. **Receber Áudio**: aceita um arquivo de áudio.
+2. **Extrair Conteúdo de Áudio**: lê o conteúdo do arquivo de áudio enviado.
+3. **Transcrição**: converte o conteúdo de áudio em texto usando uma função de fala para texto que envolve:
+   - Escrever o áudio em um arquivo temporário.
+   - Transcrever o áudio usando o modelo Faster Whisper.
+   - Excluir arquivos temporários após a transcrição.
+4. **Consultar Base de Conhecimento**: usa o texto transcrito para consultar uma base de conhecimento com detalhes sobre o carro (marca, modelo, ano) fornecidos pelo usuário.
+5. **Gerar Resposta**: retorna a resposta da consulta, extraída da base de conhecimento usando o texto transcrito como entrada.
 
-##### Workflow
-1. **Receive Audio**: Accepts an audio file and optional parameters (brand, model, year) of a car.
-2. **Extract Audio Content**: Reads the content of the uploaded audio file.
-3. **Transcription**: Converts the audio content into text using a speech-to-text function which involves:
-   - Writing the audio to a temporary file.
-   - Transcribing the audio using a machine learning model (e.g., Whisper).
-   - Deleting temporary files post transcription.
-4. **Query Knowledge Base**: Uses the transcribed text to query a knowledge base with specifics about the car (brand, model, year) provided by the user.
-5. **Generate Response**: Returns the query answer, extracted from the knowledge base using the transcribed text as input.
+##### Parâmetros
+- `audio_file` (UploadFile): o arquivo de áudio contendo a consulta falada;
+- `brand` (str, opcional): a marca do carro;
+- `model` (str, opcional): o modelo do carro;
+- `year` (str, opcional): o ano do carro;
+- `authorization` (Header): token de autorização necessário para acessar a API OpenAI.
 
-##### Parameters
-- `audio_file` (UploadFile): The audio file containing the spoken query.
-- `brand` (str, optional): The brand of the car.
-- `model` (str, optional): The model of the car.
-- `year` (str, optional): The year of the car.
-- `authorization` (Header): Bearer token required for OpenAI API access.
-
-##### Response Format
-- **Success** (Status Code: 200): Returns the transcribed text and the response content based on the query:
+##### Formato da Resposta
+- **Sucesso** (Código de Status: 200) - retorna o texto transcrito e o conteúdo da resposta com base na consulta:
   ```json
   {
-    "text": "What is the fuel efficiency of the model?",
-    "response_content": "The fuel efficiency of the model is 28 miles per gallon.",
+    "text": "Qual é a eficiência de combustível do modelo?",
+    "response_content": "A eficiência de combustível do modelo é de 20 km por hora.",
     "status_code": 200
   }
   ```
-
-- **Failure** (Status Code: 500): In case of errors, returns an error message:
+- **Falha** (Código de Status: 400) - em caso de erro, retorna uma mensagem de erro:
   ```json
   {
-    "message": "Error description",
-    "status_code": 500
+    "message": "No audio file provided.",
+    "status_code": 400
   }
   ```
 
@@ -124,25 +125,25 @@ Converts spoken queries into text and then generates answers based on the transc
 
 #### Endpoint: POST /knowledge_base
 
-This endpoint retrieves information about the existing knowledge base stored in the Milvus vector database. It verifies the presence of the specified collection and provides details about it, ensuring that the user has the appropriate credentials to access this data.
+O endpoint recupera informações sobre a base de conhecimento existente armazenada no banco de dados vetorial Milvus. Ele verifica a presença da coleção especificada.
 
-##### Workflow
-1. **Authorization Check**: Ensures that an authorization header with a valid OpenAI API key is included in the request.
-2. **Verify Collection**: Checks if the specified collection exists in the Milvus database.
-3. **Knowledge Base Retrieval**: If the collection exists, initializes the knowledge base using the specified embeddings and connection parameters. If not, it returns an indication that the knowledge base is unavailable.
+##### Fluxo de Trabalho
+1. **Verificação de Autorização**: garante que um cabeçalho de autorização com uma chave de API OpenAI válida esteja incluído na solicitação;
+2. **Verificar Coleção**: verifica se a coleção especificada existe no banco de dados Milvus;
+3. **Recuperação da Base de Conhecimento**: se a coleção existir, inicializa a base de conhecimento usando os embeddings e os parâmetros de conexão especificados. Caso contrário, retorna uma indicação de que a base de conhecimento não está disponível.
 
-##### Parameters
-- `authorization` (Header): Bearer token required for authentication and authorization. It's essential for accessing the protected resources.
+##### Parâmetros
+- `authorization` (Header): token Bearer necessário para autenticação e autorização.
 
-##### Response Format
-- **Success** (Status Code: 200): Returns a message confirming access to the knowledge base:
+##### Formato da Resposta
+- **Sucesso** (Código de Status: 200) - retorna uma mensagem confirmando o acesso à base de conhecimento:
   ```json
   {
     "knowledge_base": "Available",
     "status_code": 200
   }
   ```
-- **Failure** (Status Code: 401): If the authorization header is not provided:
+- **Falha** (Código de Status: 401) - se o cabeçalho de autorização não for fornecido:
   ```json
   {
     "message": "Authorization header not provided.",
@@ -154,19 +155,19 @@ This endpoint retrieves information about the existing knowledge base stored in 
 
 #### Endpoint: GET /collection_exists
 
-This endpoint checks if a specific collection exists within the Milvus vector database server. It is designed to quickly verify the presence of a collection by its name.
+O endpoint verifica se uma coleção específica existe no banco de dados vetorial Milvus. 
 
-##### Workflow
-1. **Check Collection Presence**: Queries the Milvus server to determine if the specified collection is available.
+##### Fluxo de Trabalho
+1. **Verificar Presença da Coleção**: consulta o Milvus para determinar se a coleção especificada está disponível.
 
-##### Parameters
-- `collection_name` (Query Parameter): The name of the collection you want to check.
+##### Parâmetros
+- `collection_name` (Parâmetro de Consulta): o nome da coleção que você deseja verificar.
 
-##### Response Format
-- **Success** (Status Code: 200): Returns a boolean indicating whether the collection exists:
+##### Formato da Resposta
+- **Sucesso** (Código de Status: 200) - retorna um booleano indicando se a coleção existe:
   ```json
   {
-    "exists": true,  // or false, depending on the presence of the collection
+    "exists": true,  // ou false, dependendo da presença da coleção
     "status_code": 200
   }
   ```
@@ -175,13 +176,13 @@ This endpoint checks if a specific collection exists within the Milvus vector da
 
 #### Endpoint: POST /clear_collection
 
-This endpoint is responsible for deleting all data within a specific collection on the Milvus vector database server. It's used to clear a collection to refresh its content or to manage data storage efficiently.
+O endpoint é responsável por excluir todos os dados dentro de uma coleção específica no banco de dados vetorial Milvus. É usado para limpar uma coleção para atualizar seu conteúdo ou para gerenciar o armazenamento de dados.
 
-##### Workflow
-1. **Clear Collection**: Initiates a command to drop or delete the specified collection from the Milvus server using its internal utility functions.
+##### Fluxo de Trabalho
+1. **Limpar Coleção**: inicia um comando para excluir a coleção especificada do servidor Milvus usando suas funções internas de utilitário.
 
-##### Response Format
-- **Success** (Status Code: 200): Returns a confirmation that the collection has been successfully cleared:
+##### Formato da Resposta
+- **Sucesso** (Código de Status: 200) - retorna uma confirmação de que a coleção foi limpa com sucesso:
   ```json
   {
     "message": "Collection COLLECTION_NAME cleared",
@@ -193,21 +194,21 @@ This endpoint is responsible for deleting all data within a specific collection 
 
 #### Endpoint: POST /export_chat_to_pdf
 
-This endpoint is designed to export chat history into a PDF format. It takes the chat messages as input and generates a PDF document, which is then encoded in base64 format for easy transmission over HTTP. This functionality is crucial for archiving conversations or providing users with downloadable chat transcripts.
+Este endpoint é projetado para exportar o histórico de chat para um formato PDF. Ele recebe as mensagens do chat como entrada e gera um documento PDF, que é então codificado no formato base 64 para facilitar a transmissão via HTTP.
 
-##### Workflow
-1. **Prepare Data**: Extracts all chat messages provided in the request data under the key 'all_messages'.
-2. **Create PDF**: Utilizes the ReportLab library to format the text and create a PDF document:
-   - Sets up a PDF template with standard page size and margins.
-   - Adds chat messages, alternating between user and assistant messages.
-   - Inserts spacers for readability.
-3. **Encode PDF**: Converts the generated PDF into a base64-encoded string to facilitate easy embedding or downloading through web interfaces.
+##### Fluxo de Trabalho
+1. **Preparar Dados**: extrai todas as mensagens do chat fornecidas nos dados da solicitação sob a chave 'all_messages'.
+2. **Criar PDF**: utiliza a biblioteca ReportLab para formatar o texto e criar um documento PDF:
+   - Configura um modelo PDF com tamanho de página padrão e margens;
+   - Adiciona mensagens de chat, alternando entre mensagens de usuário e assistente;
+   - Insere espaçadores para legibilidade.
+3. **Codificar PDF**: converte o PDF gerado em uma string codificada em base64 para facilitar a incorporação ou download.
 
-##### Parameters
-- `data` (JSON Body): A dictionary containing a list of chat messages. Each message should include the sender's role and the message text.
+##### Parâmetros
+- `data` (JSON Body): um dicionário contendo uma lista de mensagens de chat. Cada mensagem deve incluir o papel do remetente e o texto da mensagem.
 
-##### Response Format
-- **Success** (Status Code: 200): Returns a base64-encoded string of the PDF file along with the list of all messages included in the PDF:
+##### Formato da Resposta
+- **Sucesso** (Código de Status: 200) - retorna uma string codificada em base64 do PDF gerado com as mensagens de chat:
   ```json
   {
     "pdf_bytes": "base64_encoded_string_of_the_PDF",
@@ -223,42 +224,42 @@ This endpoint is designed to export chat history into a PDF format. It takes the
 
 #### Endpoint: POST /process_pdf
 
-This endpoint processes uploaded PDF files to extract text and create a knowledge base. It uses the text extracted from the PDFs to enhance an existing knowledge base or to create a new one, integrating vehicle-specific information like brand, model, and year from the file names.
+Este endpoint processa arquivos PDF enviados para extrair texto e criar uma base de conhecimento. Ele usa o texto extraído dos PDFs para aprimorar uma base de conhecimento existente ou criar uma nova, integrando informações específicas do veículo, como marca, modelo e ano dos nomes dos arquivos.
 
-##### Workflow
-1. **Authentication Check**: Verifies the presence of an authorization header with a valid API key.
-2. **PDF File Validation**: Checks if PDF files are provided in the request.
-3. **PDF Processing**:
-   - Temporarily saves each PDF to a designated directory.
-   - Extracts text from each PDF file.
-   - Parses vehicle-related metadata from the file name.
-   - Splits the extracted text into manageable chunks.
-   - Applies text embeddings using the OpenAI API.
-4. **Knowledge Base Integration**:
-   - If a knowledge base already exists, updates it with the new text and metadata.
-   - If no knowledge base exists, creates a new one with the processed data.
+##### Fluxo de Trabalho
+1. **Verificação de Autenticação**: verifica a presença de um cabeçalho de autorização com uma chave de API válida.
+2. **Validação de Arquivos PDF**: verifica se os arquivos PDF são fornecidos na solicitação.
+3. **Processamento de PDF**:
+   - Salva temporariamente cada PDF em um diretório designado;
+   - Extrai texto de cada arquivo PDF;
+   - Analisa metadados relacionados ao veículo do nome do arquivo;
+   - Divide o texto extraído em partes gerenciáveis;
+   - Aplica incorporações de texto usando a API OpenAI.
+4. **Integração com a Base de Conhecimento**:
+    - Se uma base de conhecimento já existir, a atualiza com o novo texto e metadados;
+    - Se nenhuma base de conhecimento existir, cria uma nova com os dados processados.
 
-##### Parameters
-- `authorization` (Header): Required. Bearer token for API access.
-- `pdfs` (List[UploadFile]): Required. List of PDF files to be processed.
+##### Parâmetros
+- `authorization` (Header): obrigatório. Token Bearer para acesso à API.
+- `pdfs` (Lista[UploadFile]): obrigatório. Lista de arquivos PDF a serem processados.
 
-##### Response Format
-- **Success** (Status Code: 200): Returns a message indicating successful processing of the PDFs:
+##### Formato da Resposta
+- **Sucesso** (Código de Status: 200) - retorna uma mensagem indicando o processamento bem-sucedido dos PDFs:
   ```json
   {
     "message": "PDFs processed. You may now ask questions.",
     "status_code": 200
   }
   ```
-- **Failure**:
-  - If the authorization header is missing (Status Code: 401):
+- **Falha**:
+  - Se o cabeçalho de autorização estiver ausente (Código de Status: 401):
     ```json
     {
       "message": "Authorization header not provided.",
       "status_code": 401
     }
     ```
-  - If no PDF files are provided (Status Code: 400):
+  - Se nenhum arquivo PDF for fornecido (Código de Status: 400):
     ```json
     {
       "message": "No PDF files provided.",
@@ -270,24 +271,48 @@ This endpoint processes uploaded PDF files to extract text and create a knowledg
 
 #### Endpoint: POST /answer_question_image
 
-This endpoint allows users to ask a question about an image and receive an answer. It integrates advanced AI models to interpret the content of the image and generate a relevant response based on both the visual and textual input.
+Este endpoint permite que os usuários façam uma pergunta sobre uma imagem e recebam uma resposta. Ele é projetado para lidar com consultas relacionadas a imagens e texto, fornecendo respostas com base na interpretação combinada da imagem e da pergunta.
 
-##### Workflow
-1. **Authorization Check**: Ensures an authorization header with a valid API key is present.
-2. **Validate Inputs**: Confirms that both an image file and a question are provided.
-3. **Image Processing**:
-   - The image file is asynchronously read and encoded into a base64 string.
-4. **Request Setup**:
-   - Prepares a payload that includes the question and the encoded image, formatted for AI processing.
-5. **AI Processing**:
-   - Sends a request to the OpenAI API with the question and image data.
-   - Receives the AI's response to the query based on the combined interpretation of the text and image.
-6. **Return Response**: Delivers the AI-generated answer as a JSON response.
+##### Fluxo de Trabalho
+1. **Verificação de Autorização**: garante que um cabeçalho de autorização com uma chave de API válida esteja incluído na solicitação.
+2. **Validar Entradas**: confirma se um arquivo de imagem e uma pergunta são fornecidos.
+3. **Processamento de Imagem**:
+   - O arquivo de imagem é lido e codificado de forma assíncrona em uma string base64.
+4. **Configuração da Solicitação**:
+    - Prepara uma carga útil que inclui a pergunta e a imagem codificada, formatada para processamento de IA.
+5. **Processamento de IA**:
+    - Envia uma solicitação à API OpenAI com a pergunta e os dados da imagem;
+    - Recebe a resposta da IA à consulta com base na interpretação combinada do texto e da imagem.
+6. **Retornar Resposta**: entrega a resposta gerada pela IA como parte da resposta JSON.
 
-##### Parameters
-- `authorization` (Header): Required. Bearer token for API access.
-- `image_file` (UploadFile): Required. Image file related to the question.
-- `question` (String): Required. Textual question about the image.
+##### Parâmetros
+- `authorization` (Header): obrigatório. Token Bearer para acesso à API.
+- `image_file` (UploadFile): obrigatório. Arquivo de imagem relacionado à pergunta.
+- `question` (String): obrigatório. Pergunta textual sobre a imagem.
+
+##### Formato da Resposta
+- **Sucesso** (Retorna JSONResponse) - entrega a resposta juntamente com o código de status:
+  ```json
+  {
+    "answer": "Aqui está a resposta com base na análise da imagem.",
+    "status_code": 200
+  }
+  ```
+- **Falha**: 
+  - Se a autorização estiver ausente (Código de Status: 401):
+    ```json
+    {
+      "message": "Authorization header not provided.",
+      "status_code": 401
+    }
+    ```
+  - Se a pergunta estiver ausente (Código de Status: 400):
+    ```json
+    {
+      "message": "Question not provided.",
+      "status_code": 400
+    }
+    ```
 
 ##### Response Format
 - **Success** (Returns JSONResponse): Delivers the answer along with the status code:
@@ -297,50 +322,35 @@ This endpoint allows users to ask a question about an image and receive an answe
     "status_code": 200
   }
   ```
-- **Failure**:
-  - If authorization is missing (Status Code: 401):
-    ```json
-    {
-      "message": "Authorization header not provided.",
-      "status_code": 401
-    }
-    ```
-  - If the question is missing (Status Code: 400):
-    ```json
-    {
-      "message": "Question not provided.",
-      "status_code": 400
-    }
-    ```
 
 ---
 
 #### Endpoint: POST /answer_question
 
-This endpoint allows users to submit a question about a specific car model and year using a structured format, and retrieves an answer from a knowledge base. It is designed to handle queries related to automotive information that has been stored and processed in the system's knowledge base.
+Este endpoint permite que os usuários enviem uma pergunta com base em modelo, marca e ano de carro específicos usando um formato estruturado e recuperem uma resposta de uma base de conhecimento.
 
-##### Workflow
-1. **Authorization Check**: Validates the presence of an authorization header containing a valid API key.
-2. **Validate Parameters**: Ensures that all necessary parameters (brand, model, year, question) are included.
-3. **Generate Answer**:
-   - Uses the provided parameters to query the knowledge base.
-   - Leverages previously integrated data to generate a comprehensive response.
-4. **Return Response**: Provides the generated answer as part of the response body.
+##### Fluxo de Trabalho
+1. **Verificação de Autorização**: garante que um cabeçalho de autorização com uma chave de API válida esteja incluído na solicitação.
+2. **Validar Parâmetros**: confirma se todos os parâmetros necessários (marca, modelo, ano, pergunta) estão incluídos.
+3. **Gerar Resposta**:
+   - Usa os parâmetros fornecidos para consultar a base de conhecimento;
+   - Alavanca dados previamente integrados para gerar uma resposta abrangente.
+4. **Retornar Resposta**: fornece a resposta gerada como parte do corpo da resposta.
 
-##### Parameters
-- `params` (QuestionParams): A data structure that includes `brand`, `model`, `year`, and `question`. All fields are required to tailor the query to the user's specific needs.
-- `authorization` (Header): Required. Bearer token for API access.
+##### Parâmetros
+- `params` (QuestionParams): uma estrutura de dados que inclui `brand`, `model`, `year`, e `question`. Todos os campos são necessários para adaptar a consulta às necessidades específicas do usuário.
+- `authorization` (Header): obrigatório. Token Bearer para acesso à API.
 
-##### Response Format
-- **Success** (Status Code: 200): Returns the generated answer:
+##### Formato da Resposta
+- **Sucesso** (Retorna JSONResponse) - entrega a resposta juntamente com o código de status:
   ```json
   {
     "response_content": "Here is the detailed answer based on the knowledge base.",
     "status_code": 200
   }
   ```
-- **Failure**:
-  - If the authorization header is missing (Status Code: 401):
+- **Falha**:
+  - Se a autorização estiver ausente (Código de Status: 401):
     ```json
     {
       "message": "Authorization header not provided.",
